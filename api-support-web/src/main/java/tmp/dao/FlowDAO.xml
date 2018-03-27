@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tmp.dao.FlowDAO">
+
+	<resultMap id="BaseResultMap" type="tmp.po.FlowPO">
+		<id column="id" property="id" />
+		<result column="hid" property="hid"/>
+		<result column="name" property="name"/>
+		<result column="type" property="type"/>
+		<result column="flag" property="flag"/>
+		<result column="is_del" property="isDel"/>
+	</resultMap>
+
+	<sql id="all_columns_sql">
+		id,hid,name,type,flag,is_del
+	</sql>
+	
+	<sql id="all_columns_where">
+		<if test="hid !=null">
+			AND hid =#{hid}
+		</if>
+		<if test="name !=null">
+			AND name =#{name}
+		</if>
+		<if test="type !=null">
+			AND type =#{type}
+		</if>
+		<if test="flag !=null">
+			AND flag =#{flag}
+		</if>
+		<if test="isDel !=null">
+			AND is_del =#{isDel}
+		</if>
+	</sql>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		insert into flow
+		(hid,name,type,flag,is_del)
+		values 
+		(#{hid}
+			,#{name}
+			,#{type}
+			,#{flag}
+			,#{isDel})
+	</insert>
+
+	<insert id="batchInsert" useGeneratedKeys="true" keyProperty="id">
+		insert into flow
+		(hid,name,type,flag,is_del)
+		values
+		<foreach collection="list" item="item" separator=",">
+			(#{item.hid}
+			,#{item.name}
+			,#{item.type}
+			,#{item.flag}
+			,#{item.isDel})
+		</foreach>
+	</insert>
+
+	<select id="selectById" resultMap="BaseResultMap">
+		select
+		<include refid="all_columns_sql" />
+		from flow
+		where id = #{id}
+	</select>
+
+	<select id="selectByPO" resultMap="BaseResultMap">
+		select
+		<include refid="all_columns_sql" />
+		from flow
+		where is_del = 0
+		<include refid="all_columns_where" />
+		<if test="pageSize !=null and pageSize >0">
+			limit ${startRow},${pageSize}
+		</if>
+	</select>
+
+	<update id="updateById">
+		update flow
+		<set>
+			<if test="hid !=null">
+			hid = #{hid},
+		</if>
+		<if test="name !=null">
+			name = #{name},
+		</if>
+		<if test="type !=null">
+			type = #{type},
+		</if>
+		<if test="flag !=null">
+			flag = #{flag},
+		</if>
+		<if test="isDel !=null">
+			is_del = #{isDel},
+		</if>
+		</set>
+		where id =#{id}
+	</update>
+
+	<update id="delById">
+		update flow
+		set id_del = #{isDel}
+		where id = #{id}
+	</update>
+
+	<update id="delByIds">
+		update flow
+		set id_del = #{isDel}
+		where id in
+		<foreach item="id" collection="list" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+	<select id="isExistByPO" resultType="java.lang.Long">
+		select id from flow
+		where is_del = 0
+		<include refid="all_columns_where" />
+	</select>
+</mapper>

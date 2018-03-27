@@ -1,0 +1,17 @@
+package ${packageName};
+
+import java.util.Date;
+import com.gtp.apisupport.annotation.ApiDescribe;
+import com.gtp.apisupport.model.BasePge;
+
+public class ${entityName}PO extends BasePge{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	${fields}
+	${setter}
+	${getter}
+}

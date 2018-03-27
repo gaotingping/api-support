@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style type="text/css">
+div{
+  width: 60%;
+  height: 100%;
+  margin: 0 auto;
+}
+</style>
+</head>
+<body>
+<div>
+<pre>
+服务模块名: 360DEService
+
+#输入格式
+{
+    "args": {
+        "userName": "医师_0",
+        "password": "000000"
+    },
+    "serviceModule": "360DEService",
+    "serviceNumber": "login",
+    "TerminalType": "A",
+    "token": "-1"
+}
+
+#输出格式:
+{
+    "errorMessage": "",  //发生错误时的说明
+    "opFlag ": "true",   //true,false 接口逻辑处理结果
+    "serviceResult": "" //业务数据字符串
+}
+
+serviceResult:{
+ flag:"true/false",
+ error:"错误时的说明",
+ result:“业务数据”,
+ stime:”服务器当前时间戳”
+}
+
+*其中result分页查询时:
+{
+	"total":"总记录数",
+	"pages":"总页数",
+	"pageSize":"每页大小",
+	"data":"业务数据",
+	"pageNumber":"当前页"
+}
+
+*公共约定:
+1.token只需要传递到外围，不需要到args
+2.下面文档中重点列出：输入只列出args  输出只列出serviceResult
+3.分页参数 pageNumber:当前页码，从1开始，pageSize:每页显示数目，查询全部传递-1
+</pre>
+</div>
+</body>
+</html>

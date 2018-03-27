@@ -1,0 +1,52 @@
+package tmp.api.impl;
+
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import com.gtp.apisupport.common.CommonBiz;
+${imports}
+
+@Component
+public class ${entityName}ApiImpl implements ${entityName}Api{
+
+	@Autowired
+	private ${entityName}Service ${entityName2}Service;
+	
+	@Override
+	public ${entityName}PO edit${entityName}(${entityName}PO po) {
+		
+		Long id = po.getId();
+		
+		if(CommonBiz.isId(id)){
+			${entityName2}Service.update${entityName}ById(po);
+		}else{
+			${entityName2}Service.insert${entityName}(po);
+		}
+		
+		return po;
+	}
+
+	@Override
+	public ${entityName}PO find${entityName}ById(Long id) {
+		if(!CommonBiz.isId(id)){
+			return null;
+		}
+		return ${entityName2}Service.get${entityName}ById(id);
+	}
+
+	@Override
+	public List<${entityName}PO> query${entityName}(${entityName}PO po) {
+		return ${entityName2}Service.get${entityName}ByPO(po);
+	}
+
+	@Override
+	public int del${entityName}ById(Long id) {
+		return ${entityName2}Service.del${entityName}ById(id);
+	}
+
+	@Override
+	public int del${entityName}ByIds(List<Long> ids) {
+		return ${entityName2}Service.del${entityName}ByIds(ids);
+	}
+	
+}

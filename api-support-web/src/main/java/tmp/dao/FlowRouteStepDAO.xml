@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tmp.dao.FlowRouteStepDAO">
+
+	<resultMap id="BaseResultMap" type="tmp.po.FlowRouteStepPO">
+		<id column="id" property="id" />
+		<result column="flow_route_id" property="flowRouteId"/>
+		<result column="step_num" property="stepNum"/>
+		<result column="step_performer" property="stepPerformer"/>
+	</resultMap>
+
+	<sql id="all_columns_sql">
+		id,flow_route_id,step_num,step_performer
+	</sql>
+	
+	<sql id="all_columns_where">
+		<if test="flowRouteId !=null">
+			AND flow_route_id =#{flowRouteId}
+		</if>
+		<if test="stepNum !=null">
+			AND step_num =#{stepNum}
+		</if>
+		<if test="stepPerformer !=null">
+			AND step_performer =#{stepPerformer}
+		</if>
+	</sql>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		insert into flow_route_step
+		(flow_route_id,step_num,step_performer)
+		values 
+		(#{flowRouteId}
+			,#{stepNum}
+			,#{stepPerformer})
+	</insert>
+
+	<insert id="batchInsert" useGeneratedKeys="true" keyProperty="id">
+		insert into flow_route_step
+		(flow_route_id,step_num,step_performer)
+		values
+		<foreach collection="list" item="item" separator=",">
+			(#{item.flowRouteId}
+			,#{item.stepNum}
+			,#{item.stepPerformer})
+		</foreach>
+	</insert>
+
+	<select id="selectById" resultMap="BaseResultMap">
+		select
+		<include refid="all_columns_sql" />
+		from flow_route_step
+		where id = #{id}
+	</select>
+
+	<select id="selectByPO" resultMap="BaseResultMap">
+		select
+		<include refid="all_columns_sql" />
+		from flow_route_step
+		where is_del = 0
+		<include refid="all_columns_where" />
+		<if test="pageSize !=null and pageSize >0">
+			limit ${startRow},${pageSize}
+		</if>
+	</select>
+
+	<update id="updateById">
+		update flow_route_step
+		<set>
+			<if test="flowRouteId !=null">
+			flow_route_id = #{flowRouteId},
+		</if>
+		<if test="stepNum !=null">
+			step_num = #{stepNum},
+		</if>
+		<if test="stepPerformer !=null">
+			step_performer = #{stepPerformer},
+		</if>
+		</set>
+		where id =#{id}
+	</update>
+
+	<update id="delById">
+		update flow_route_step
+		set id_del = #{isDel}
+		where id = #{id}
+	</update>
+
+	<update id="delByIds">
+		update flow_route_step
+		set id_del = #{isDel}
+		where id in
+		<foreach item="id" collection="list" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+	<select id="isExistByPO" resultType="java.lang.Long">
+		select id from flow_route_step
+		where is_del = 0
+		<include refid="all_columns_where" />
+	</select>
+</mapper>

@@ -1,0 +1,27 @@
+package ${packageName};
+
+${imports}
+import java.util.List;
+import com.gtp.apisupport.annotation.ApiMethod;
+import com.gtp.apisupport.annotation.ApiParam;
+import com.gtp.apisupport.annotation.ApiService;
+
+@ApiService("${entityNote}")
+public interface ${entityName}Api {
+
+	@ApiMethod(value="${entityCodePrefix}001",desc="编辑")
+	public ${entityName}PO edit${entityName}(${entityName}PO po);
+
+	@ApiMethod(value="${entityCodePrefix}002",desc="按ID查询")
+	public ${entityName}PO find${entityName}ById(@ApiParam("id") Long id);
+
+	@ApiMethod(value="${entityCodePrefix}003",desc="查询列表")
+	public List<${entityName}PO> query${entityName}(${entityName}PO po);
+
+	@ApiMethod(value="${entityCodePrefix}004",desc="按id删除")
+	public int del${entityName}ById(@ApiParam("id")Long id);
+	
+	@ApiMethod(value="${entityCodePrefix}005",desc="按ids删除")
+	public int del${entityName}ByIds(@ApiParam("ids")List<Long> ids);
+	
+}

@@ -1,0 +1,25 @@
+package ${packageName};
+
+import java.util.List;
+${imports}
+
+public interface ${entityName}DAO {
+
+	public int insert(${entityName}PO po);
+
+	public int batchInsert(List<${entityName}PO> list);
+
+	public ${entityName}PO selectById(Long id);
+
+	public List<${entityName}PO> selectByPO(${entityName}PO po);
+
+	public int updateById(${entityName}PO po);
+
+	public int delById(Long id);
+
+	public int delByIds(List<Long> list);
+
+	public Long isExistByPO(${entityName}PO po);
+
+}
+

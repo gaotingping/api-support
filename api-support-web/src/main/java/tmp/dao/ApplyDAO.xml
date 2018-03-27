@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tmp.dao.ApplyDAO">
+
+	<resultMap id="BaseResultMap" type="tmp.po.ApplyPO">
+		<id column="id" property="id" />
+		<result column="flow_id" property="flowId"/>
+		<result column="hid" property="hid"/>
+		<result column="apply_member_id" property="applyMemberId"/>
+		<result column="apply_member_role" property="applyMemberRole"/>
+		<result column="apply_note" property="applyNote"/>
+		<result column="apply_time" property="applyTime"/>
+		<result column="audit_time" property="auditTime"/>
+		<result column="audit_flag" property="auditFlag"/>
+		<result column="audit_note" property="auditNote"/>
+		<result column="stime" property="stime"/>
+		<result column="is_del" property="isDel"/>
+	</resultMap>
+
+	<sql id="all_columns_sql">
+		id,flow_id,hid,apply_member_id,apply_member_role,apply_note,apply_time,audit_time,audit_flag,audit_note,stime,is_del
+	</sql>
+	
+	<sql id="all_columns_where">
+		<if test="flowId !=null">
+			AND flow_id =#{flowId}
+		</if>
+		<if test="hid !=null">
+			AND hid =#{hid}
+		</if>
+		<if test="applyMemberId !=null">
+			AND apply_member_id =#{applyMemberId}
+		</if>
+		<if test="applyMemberRole !=null">
+			AND apply_member_role =#{applyMemberRole}
+		</if>
+		<if test="applyNote !=null">
+			AND apply_note =#{applyNote}
+		</if>
+		<if test="applyTime !=null">
+			AND apply_time =#{applyTime}
+		</if>
+		<if test="auditTime !=null">
+			AND audit_time =#{auditTime}
+		</if>
+		<if test="auditFlag !=null">
+			AND audit_flag =#{auditFlag}
+		</if>
+		<if test="auditNote !=null">
+			AND audit_note =#{auditNote}
+		</if>
+		<if test="stime !=null">
+			AND stime =#{stime}
+		</if>
+		<if test="isDel !=null">
+			AND is_del =#{isDel}
+		</if>
+	</sql>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		insert into apply
+		(flow_id,hid,apply_member_id,apply_member_role,apply_note,apply_time,audit_time,audit_flag,audit_note,stime,is_del)
+		values 
+		(#{flowId}
+			,#{hid}
+			,#{applyMemberId}
+			,#{applyMemberRole}
+			,#{applyNote}
+			,#{applyTime}
+			,#{auditTime}
+			,#{auditFlag}
+			,#{auditNote}
+			,#{stime}
+			,#{isDel})
+	</insert>
+
+	<insert id="batchInsert" useGeneratedKeys="true" keyProperty="id">
+		insert into apply
+		(flow_id,hid,apply_member_id,apply_member_role,apply_note,apply_time,audit_time,audit_flag,audit_note,stime,is_del)
+		values
+		<foreach collection="list" item="item" separator=",">
+			(#{item.flowId}
+			,#{item.hid}
+			,#{item.applyMemberId}
+			,#{item.applyMemberRole}
+			,#{item.applyNote}
+			,#{item.applyTime}
+			,#{item.auditTime}
+			,#{item.auditFlag}
+			,#{item.auditNote}
+			,#{item.stime}
+			,#{item.isDel})
+		</foreach>
+	</insert>
+
+	<select id="selectById" resultMap="BaseResultMap">
+		select
+		<include refid="all_columns_sql" />
+		from apply
+		where id = #{id}
+	</select>
+
+	<select id="selectByPO" resultMap="BaseResultMap">
+		select
+		<include refid="all_columns_sql" />
+		from apply
+		where is_del = 0
+		<include refid="all_columns_where" />
+		<if test="pageSize !=null and pageSize >0">
+			limit ${startRow},${pageSize}
+		</if>
+	</select>
+
+	<update id="updateById">
+		update apply
+		<set>
+			<if test="flowId !=null">
+			flow_id = #{flowId},
+		</if>
+		<if test="hid !=null">
+			hid = #{hid},
+		</if>
+		<if test="applyMemberId !=null">
+			apply_member_id = #{applyMemberId},
+		</if>
+		<if test="applyMemberRole !=null">
+			apply_member_role = #{applyMemberRole},
+		</if>
+		<if test="applyNote !=null">
+			apply_note = #{applyNote},
+		</if>
+		<if test="applyTime !=null">
+			apply_time = #{applyTime},
+		</if>
+		<if test="auditTime !=null">
+			audit_time = #{auditTime},
+		</if>
+		<if test="auditFlag !=null">
+			audit_flag = #{auditFlag},
+		</if>
+		<if test="auditNote !=null">
+			audit_note = #{auditNote},
+		</if>
+		<if test="stime !=null">
+			stime = #{stime},
+		</if>
+		<if test="isDel !=null">
+			is_del = #{isDel},
+		</if>
+		</set>
+		where id =#{id}
+	</update>
+
+	<update id="delById">
+		update apply
+		set id_del = #{isDel}
+		where id = #{id}
+	</update>
+
+	<update id="delByIds">
+		update apply
+		set id_del = #{isDel}
+		where id in
+		<foreach item="id" collection="list" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+	<select id="isExistByPO" resultType="java.lang.Long">
+		select id from apply
+		where is_del = 0
+		<include refid="all_columns_where" />
+	</select>
+</mapper>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tmp.dao.ApplyAuditStepMemberDAO">
+
+	<resultMap id="BaseResultMap" type="tmp.po.ApplyAuditStepMemberPO">
+		<id column="id" property="id" />
+		<result column="audit_step_id" property="auditStepId"/>
+		<result column="member" property="member"/>
+		<result column="member_role" property="memberRole"/>
+	</resultMap>
+
+	<sql id="all_columns_sql">
+		id,audit_step_id,member,member_role
+	</sql>
+	
+	<sql id="all_columns_where">
+		<if test="auditStepId !=null">
+			AND audit_step_id =#{auditStepId}
+		</if>
+		<if test="member !=null">
+			AND member =#{member}
+		</if>
+		<if test="memberRole !=null">
+			AND member_role =#{memberRole}
+		</if>
+	</sql>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		insert into apply_audit_step_member
+		(audit_step_id,member,member_role)
+		values 
+		(#{auditStepId}
+			,#{member}
+			,#{memberRole})
+	</insert>
+
+	<insert id="batchInsert" useGeneratedKeys="true" keyProperty="id">
+		insert into apply_audit_step_member
+		(audit_step_id,member,member_role)
+		values
+		<foreach collection="list" item="item" separator=",">
+			(#{item.auditStepId}
+			,#{item.member}
+			,#{item.memberRole})
+		</foreach>
+	</insert>
+
+	<select id="selectById" resultMap="BaseResultMap">
+		select
+		<include refid="all_columns_sql" />
+		from apply_audit_step_member
+		where id = #{id}
+	</select>
+
+	<select id="selectByPO" resultMap="BaseResultMap">
+		select
+		<include refid="all_columns_sql" />
+		from apply_audit_step_member
+		where is_del = 0
+		<include refid="all_columns_where" />
+		<if test="pageSize !=null and pageSize >0">
+			limit ${startRow},${pageSize}
+		</if>
+	</select>
+
+	<update id="updateById">
+		update apply_audit_step_member
+		<set>
+			<if test="auditStepId !=null">
+			audit_step_id = #{auditStepId},
+		</if>
+		<if test="member !=null">
+			member = #{member},
+		</if>
+		<if test="memberRole !=null">
+			member_role = #{memberRole},
+		</if>
+		</set>
+		where id =#{id}
+	</update>
+
+	<update id="delById">
+		update apply_audit_step_member
+		set id_del = #{isDel}
+		where id = #{id}
+	</update>
+
+	<update id="delByIds">
+		update apply_audit_step_member
+		set id_del = #{isDel}
+		where id in
+		<foreach item="id" collection="list" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+	<select id="isExistByPO" resultType="java.lang.Long">
+		select id from apply_audit_step_member
+		where is_del = 0
+		<include refid="all_columns_where" />
+	</select>
+</mapper>

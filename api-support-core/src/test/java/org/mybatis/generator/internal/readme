@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
+<generatorConfiguration>
+    <classPathEntry  location="D:/gtp/maven/repo/mysql/mysql-connector-java/5.1.39/mysql-connector-java-5.1.39.jar" />
+	<context id="gms-service" targetRuntime="MyBatis3" >	
+		<property name="javaFileEncoding" value="UTF-8"/>	
+		<!--配置为自己实现的类即可-->
+		<commentGenerator type="org.mybatis.generator.internal.CustomeCommentGenerator">
+			<property name="suppressAllComments" value="true" />
+		</commentGenerator>
+		...
+	</context>
+</generatorConfiguration>

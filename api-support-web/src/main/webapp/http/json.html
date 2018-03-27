@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="css/index.css" />
+</head>
+<body>
+	<script src="js/jquery-1.8.2.min.js" type="text/javascript"></script>
+	<script type="text/javascript" src="jf/js/jsonFormater.js"></script>
+	<script type="text/javascript">
+		function toFormat() {
+			var str = get("input").value;
+			if (str != null || "" != str) {
+				set("show", str);
+			}
+		}
+		function get(id) {
+			return document.getElementById(id);
+		}
+		function set(id, txt) {
+			var options = {
+				dom : '#' + id,
+				imgCollapsed : "jf/images/Collapsed.gif",
+				imgExpanded : "jf/images/Expanded.gif",
+				quoteKeys : false
+			};
+			var jf = new JsonFormater(options);
+			jf.doFormat(txt);
+		}
+	</script>
+	<div class="_content">
+		<table>
+			<tr id="tr2">
+				<td class="td1">输入原文:</td>
+				<td class="td2"><textarea id="input" onchange="toFormat()"></textarea>
+				<a href="javaScript:void(0)" onclick="toFormat()">格式化</a>
+				</td>
+			</tr>
+			<tr id="tr3">
+				<td class="td1">格式化后:</td>
+				<td class="td2"><div id="show"></div></td>
+			</tr>
+		</table>
+	</div>
+</body>
+</html>

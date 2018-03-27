@@ -1,0 +1,23 @@
+package ${packageName};
+
+import java.util.List;
+${imports}
+
+public interface ${entityName}Service {
+
+	public int insert${entityName}(${entityName}PO po);
+
+	public int batchInsert${entityName}(List<${entityName}PO> list);
+
+	public ${entityName}PO get${entityName}ById(Long id);
+
+	public List<${entityName}PO> get${entityName}ByPO(${entityName}PO po);
+
+	public int update${entityName}ById(${entityName}PO po);
+
+	public int del${entityName}ById(Long id);
+
+	public int del${entityName}ByIds(List<Long> list);
+
+	public boolean isExist${entityName}ByPO(${entityName}PO po);
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" type="text/css" href="css/index.css"/>
+</head>
+<body>
+<script type="text/javascript" src="js/index.js"></script>
+<script type="text/javascript" src="js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="jf/js/jsonFormater.js"></script>
+<div class="_content">
+<table>
+ 	<tr id="tr1">
+      <td class="td1">
+      <span>
+		  http(post):
+		  <select name="method" id="m">
+			  	<option value="POST">POST</option>
+			    <option value="GET">GET</option> 
+				<option value="PUT">PUT</option>
+				<option value="DELETE">DELETE</option>
+				<option value="HEAD">HEAD</option>
+				<option value="OPTIONS">OPTIONS</option>
+				<option value="TRACE">TRACE</option>
+		  </select>
+	  </span>
+      </td>
+      <td class="td2">
+      		<input name="http" id="http" type="text" value="http://192.168.8.37:9081/bus/services"/>
+  			<a href="javaScript:void(0)" onclick="test()">测试</a>
+      </td>
+   </tr>
+   <tr id="tr2">
+      <td class="td1">args:</td>
+      <td class="td2"><textarea name="args" id="args">{"args":{"userName":"北京协和医院","password":"670b14728ad9902aecba32e22fa4f6bd"},"serviceModule":"CTTMS-Service","serviceNumber":"login","TerminalType":"A","token":"-1"}</textarea></td>
+   </tr>
+   <tr id="tr3">
+      <td class="td1">response:</td>
+      <td class="td2"><div id="show"></div></td>
+   </tr>
+</table>
+</div>
+</body>
+</html>

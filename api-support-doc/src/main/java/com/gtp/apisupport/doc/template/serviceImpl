@@ -1,0 +1,63 @@
+package ${packageName};
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import java.util.List;
+${imports}
+
+@Service
+public class ${entityName}ServiceImpl implements ${entityName}Service{
+
+	@Autowired
+	private ${entityName}DAO ${entityName2}DAO;
+
+	@Override
+	@Transactional
+	public int insert${entityName}(${entityName}PO po) {
+		return ${entityName2}DAO.insert(po);
+	}
+
+	@Override
+	@Transactional
+	public int batchInsert${entityName}(List<${entityName}PO> list) {
+		return ${entityName2}DAO.batchInsert(list);
+	}
+
+	@Override
+	public ${entityName}PO get${entityName}ById(Long id) {
+		return ${entityName2}DAO.selectById(id);
+	}
+
+	@Override
+	public List<${entityName}PO> get${entityName}ByPO(${entityName}PO po) {
+		return ${entityName2}DAO.selectByPO(po);
+	}
+
+	@Override
+	@Transactional
+	public int update${entityName}ById(${entityName}PO po) {
+		return ${entityName2}DAO.updateById(po);
+	}
+
+	@Override
+	@Transactional
+	public int del${entityName}ById(Long id) {
+		return ${entityName2}DAO.delById(id);
+	}
+
+	@Override
+	@Transactional
+	public int del${entityName}ByIds(List<Long> ids) {
+		return ${entityName2}DAO.delByIds(ids);
+	}
+
+	@Override
+	public boolean isExist${entityName}ByPO(${entityName}PO po) {
+		Long id = ${entityName2}DAO.isExistByPO(po);
+		if(id == null || id<1){
+			return false;
+		}
+		return true;
+	}
+}

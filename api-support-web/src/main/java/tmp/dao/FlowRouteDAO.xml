@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tmp.dao.FlowRouteDAO">
+
+	<resultMap id="BaseResultMap" type="tmp.po.FlowRoutePO">
+		<id column="id" property="id" />
+		<result column="flow_id" property="flowId"/>
+		<result column="flow_route" property="flowRoute"/>
+		<result column="is_del" property="isDel"/>
+	</resultMap>
+
+	<sql id="all_columns_sql">
+		id,flow_id,flow_route,is_del
+	</sql>
+	
+	<sql id="all_columns_where">
+		<if test="flowId !=null">
+			AND flow_id =#{flowId}
+		</if>
+		<if test="flowRoute !=null">
+			AND flow_route =#{flowRoute}
+		</if>
+		<if test="isDel !=null">
+			AND is_del =#{isDel}
+		</if>
+	</sql>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		insert into flow_route
+		(flow_id,flow_route,is_del)
+		values 
+		(#{flowId}
+			,#{flowRoute}
+			,#{isDel})
+	</insert>
+
+	<insert id="batchInsert" useGeneratedKeys="true" keyProperty="id">
+		insert into flow_route
+		(flow_id,flow_route,is_del)
+		values
+		<foreach collection="list" item="item" separator=",">
+			(#{item.flowId}
+			,#{item.flowRoute}
+			,#{item.isDel})
+		</foreach>
+	</insert>
+
+	<select id="selectById" resultMap="BaseResultMap">
+		select
+		<include refid="all_columns_sql" />
+		from flow_route
+		where id = #{id}
+	</select>
+
+	<select id="selectByPO" resultMap="BaseResultMap">
+		select
+		<include refid="all_columns_sql" />
+		from flow_route
+		where is_del = 0
+		<include refid="all_columns_where" />
+		<if test="pageSize !=null and pageSize >0">
+			limit ${startRow},${pageSize}
+		</if>
+	</select>
+
+	<update id="updateById">
+		update flow_route
+		<set>
+			<if test="flowId !=null">
+			flow_id = #{flowId},
+		</if>
+		<if test="flowRoute !=null">
+			flow_route = #{flowRoute},
+		</if>
+		<if test="isDel !=null">
+			is_del = #{isDel},
+		</if>
+		</set>
+		where id =#{id}
+	</update>
+
+	<update id="delById">
+		update flow_route
+		set id_del = #{isDel}
+		where id = #{id}
+	</update>
+
+	<update id="delByIds">
+		update flow_route
+		set id_del = #{isDel}
+		where id in
+		<foreach item="id" collection="list" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+	<select id="isExistByPO" resultType="java.lang.Long">
+		select id from flow_route
+		where is_del = 0
+		<include refid="all_columns_where" />
+	</select>
+</mapper>

@@ -1,0 +1,13 @@
+/**
+ * ${p1}
+ * @param  args
+ * @param  callBack
+ * @return
+ */
+UIDA.GMS.${p2} = function(args,callBack){
+	var req={
+		"serviceNumber":"${p3}",
+		"args":args
+	};
+	UIDA.GMS.sendReq(req,callBack);
+};

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tmp.dao.ApplyAuditStepDAO">
+
+	<resultMap id="BaseResultMap" type="tmp.po.ApplyAuditStepPO">
+		<id column="id" property="id" />
+		<result column="step_num" property="stepNum"/>
+		<result column="step_performer" property="stepPerformer"/>
+		<result column="audit_member_id" property="auditMemberId"/>
+		<result column="audit_member_role" property="auditMemberRole"/>
+		<result column="audit_member_name" property="auditMemberName"/>
+		<result column="audit_note" property="auditNote"/>
+		<result column="audit_flag" property="auditFlag"/>
+		<result column="audit_time" property="auditTime"/>
+		<result column="current_step" property="currentStep"/>
+		<result column="resource_id" property="resourceId"/>
+		<result column="resource_type" property="resourceType"/>
+		<result column="stime" property="stime"/>
+	</resultMap>
+
+	<sql id="all_columns_sql">
+		id,step_num,step_performer,audit_member_id,audit_member_role,audit_member_name,audit_note,audit_flag,audit_time,current_step,resource_id,resource_type,stime
+	</sql>
+	
+	<sql id="all_columns_where">
+		<if test="stepNum !=null">
+			AND step_num =#{stepNum}
+		</if>
+		<if test="stepPerformer !=null">
+			AND step_performer =#{stepPerformer}
+		</if>
+		<if test="auditMemberId !=null">
+			AND audit_member_id =#{auditMemberId}
+		</if>
+		<if test="auditMemberRole !=null">
+			AND audit_member_role =#{auditMemberRole}
+		</if>
+		<if test="auditMemberName !=null">
+			AND audit_member_name =#{auditMemberName}
+		</if>
+		<if test="auditNote !=null">
+			AND audit_note =#{auditNote}
+		</if>
+		<if test="auditFlag !=null">
+			AND audit_flag =#{auditFlag}
+		</if>
+		<if test="auditTime !=null">
+			AND audit_time =#{auditTime}
+		</if>
+		<if test="currentStep !=null">
+			AND current_step =#{currentStep}
+		</if>
+		<if test="resourceId !=null">
+			AND resource_id =#{resourceId}
+		</if>
+		<if test="resourceType !=null">
+			AND resource_type =#{resourceType}
+		</if>
+		<if test="stime !=null">
+			AND stime =#{stime}
+		</if>
+	</sql>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		insert into apply_audit_step
+		(step_num,step_performer,audit_member_id,audit_member_role,audit_member_name,audit_note,audit_flag,audit_time,current_step,resource_id,resource_type,stime)
+		values 
+		(#{stepNum}
+			,#{stepPerformer}
+			,#{auditMemberId}
+			,#{auditMemberRole}
+			,#{auditMemberName}
+			,#{auditNote}
+			,#{auditFlag}
+			,#{auditTime}
+			,#{currentStep}
+			,#{resourceId}
+			,#{resourceType}
+			,#{stime})
+	</insert>
+
+	<insert id="batchInsert" useGeneratedKeys="true" keyProperty="id">
+		insert into apply_audit_step
+		(step_num,step_performer,audit_member_id,audit_member_role,audit_member_name,audit_note,audit_flag,audit_time,current_step,resource_id,resource_type,stime)
+		values
+		<foreach collection="list" item="item" separator=",">
+			(#{item.stepNum}
+			,#{item.stepPerformer}
+			,#{item.auditMemberId}
+			,#{item.auditMemberRole}
+			,#{item.auditMemberName}
+			,#{item.auditNote}
+			,#{item.auditFlag}
+			,#{item.auditTime}
+			,#{item.currentStep}
+			,#{item.resourceId}
+			,#{item.resourceType}
+			,#{item.stime})
+		</foreach>
+	</insert>
+
+	<select id="selectById" resultMap="BaseResultMap">
+		select
+		<include refid="all_columns_sql" />
+		from apply_audit_step
+		where id = #{id}
+	</select>
+
+	<select id="selectByPO" resultMap="BaseResultMap">
+		select
+		<include refid="all_columns_sql" />
+		from apply_audit_step
+		where is_del = 0
+		<include refid="all_columns_where" />
+		<if test="pageSize !=null and pageSize >0">
+			limit ${startRow},${pageSize}
+		</if>
+	</select>
+
+	<update id="updateById">
+		update apply_audit_step
+		<set>
+			<if test="stepNum !=null">
+			step_num = #{stepNum},
+		</if>
+		<if test="stepPerformer !=null">
+			step_performer = #{stepPerformer},
+		</if>
+		<if test="auditMemberId !=null">
+			audit_member_id = #{auditMemberId},
+		</if>
+		<if test="auditMemberRole !=null">
+			audit_member_role = #{auditMemberRole},
+		</if>
+		<if test="auditMemberName !=null">
+			audit_member_name = #{auditMemberName},
+		</if>
+		<if test="auditNote !=null">
+			audit_note = #{auditNote},
+		</if>
+		<if test="auditFlag !=null">
+			audit_flag = #{auditFlag},
+		</if>
+		<if test="auditTime !=null">
+			audit_time = #{auditTime},
+		</if>
+		<if test="currentStep !=null">
+			current_step = #{currentStep},
+		</if>
+		<if test="resourceId !=null">
+			resource_id = #{resourceId},
+		</if>
+		<if test="resourceType !=null">
+			resource_type = #{resourceType},
+		</if>
+		<if test="stime !=null">
+			stime = #{stime},
+		</if>
+		</set>
+		where id =#{id}
+	</update>
+
+	<update id="delById">
+		update apply_audit_step
+		set id_del = #{isDel}
+		where id = #{id}
+	</update>
+
+	<update id="delByIds">
+		update apply_audit_step
+		set id_del = #{isDel}
+		where id in
+		<foreach item="id" collection="list" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+
+	<select id="isExistByPO" resultType="java.lang.Long">
+		select id from apply_audit_step
+		where is_del = 0
+		<include refid="all_columns_where" />
+	</select>
+</mapper>

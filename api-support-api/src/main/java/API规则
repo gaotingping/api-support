@@ -1,0 +1,46 @@
+#
+1.DTO，VO定义为public
+2.接口输入参数，不建议分散，建议定义为bean（封装）
+
+#POST+json
+#服务
+#组-
+#方法
+{
+	token:
+	service:
+	group:
+	action:
+	args:{}
+}
+*直接生产SDK
+dataAccess=
+
+/*
+var senddata_2= {
+	    serviceNumber:'4001004',
+	    serviceModule:Config.serviceModule,
+	    token:User.token,
+	    args:{
+	        token:User.token,
+	        year:2017,
+	        province:item.province
+	    }
+	};
+
+*/
+UIDA.flowEdit(args,function(){
+		if(data.flag == "true"){
+	        createTableDialog(data.result,"任务状态");
+	    }else{
+	        Elf.components.toast({text:data.error});
+	    }
+});	  
+
+/**
+流程编辑
+*/
+ 
+
+#restful
+/服务/组/方法
